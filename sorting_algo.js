@@ -41,6 +41,7 @@ function selectionSort(arr)
     return arr;
 }
 
+
 // insertion sort
 function insertionSort(arr)
 {
@@ -59,6 +60,7 @@ function insertionSort(arr)
         }
     }
 }
+
 
 // merge sort
 function merge(arr, arrCopy, low, mid, high)
@@ -95,41 +97,23 @@ function mergeSort(arr, arrCopy, low, high)
     merge(arr, arrCopy, low, mid, high)
 }
 
-// partition
-// function partition(arr, pivotIndex)
-// {
-//     let temp = arr[0];
-//     arr[0] = arr[pivotIndex];
-//     arr[pivotIndex] = temp;
+function isSorted(arr){
+    let n = arr.length;
+    if(n <=1) return true;
+    for(let i =0; i<n-1; i++){
+        if(arr[i]>arr[i+1])
+            return false;
+    }
+    return true;
+}
 
-//     let left = 1;
-//     let right = arr.length-1;
-
-//     while(left < right){
-//         while(arr[left] < arr[0]){
-//             left++;
-//         }
-    
-//         while(arr[right] > arr[0]){
-//             right--;
-//         }
-
-//         if(left >= right) break;
-
-//         let temp2 = arr[left];
-//         arr[left] = arr[right];
-//         arr[right] = temp2;
-//     }
-
-//     temp = arr[0];
-//     arr[0] = arr[right];
-//     arr[right] = temp;
-//     return right;
-// }
 
 function partition(arr, low, high)
 {
-    let valueOfPivot = arr[low];
+    let pivot = Math.floor(Math.random()*(high-low+1))+low;
+    let valueOfPivot = arr[pivot];
+    arr[pivot] = arr[low];
+    arr[low] = valueOfPivot;
     let left = low+1;
     let right = high;
     while(left < right){
@@ -139,7 +123,7 @@ function partition(arr, low, high)
     
         while(arr[right] >= valueOfPivot){
             right--;
-            if(right==low) return right;
+            if(right==low) break;
         }
 
         if(left >= right) break;
@@ -147,20 +131,29 @@ function partition(arr, low, high)
         let temp2 = arr[left];
         arr[left] = arr[right];
         arr[right] = temp2;
+        left++;
+        right--;
     }
-    
-    let temp = valueOfPivot;
-    arr[low] = arr[right];
-    arr[right] = temp;
+    if(arr[right]<arr[low]){
+        arr[low] = arr[right];
+        arr[right] = valueOfPivot;
+    }
     return right;
 }
 // quick sort
 function quickSort(arr, low, high){
-    if(low+1 >= high){
-        return;
-    }
+    if(isSorted(arr)) return;
+    if(low >= high) return;
     
     var i = partition(arr, low, high);
     quickSort(arr, low, i-1);
     quickSort(arr, i+1, high);
+
+    if(isSorted(arr)){
+        return;
+    }else{
+        low = 0;
+        high= arr.length-1;
+        quickSort(arr, low, high);
+    }
 }
