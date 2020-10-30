@@ -95,10 +95,72 @@ function mergeSort(arr, arrCopy, low, high)
     merge(arr, arrCopy, low, mid, high)
 }
 
+// partition
+// function partition(arr, pivotIndex)
+// {
+//     let temp = arr[0];
+//     arr[0] = arr[pivotIndex];
+//     arr[pivotIndex] = temp;
 
-// let arr = [-4,24,5,-88,3,9,0]
-// let arr1 = [-4,24,5,-4,3,0]
-// let arr2 = [3,2,1,0]
-// let arrCopy = [];
-// mergeSort(arr1, arrCopy, 0, arr1.length-1);
-// console.log(arr1);
+//     let left = 1;
+//     let right = arr.length-1;
+
+//     while(left < right){
+//         while(arr[left] < arr[0]){
+//             left++;
+//         }
+    
+//         while(arr[right] > arr[0]){
+//             right--;
+//         }
+
+//         if(left >= right) break;
+
+//         let temp2 = arr[left];
+//         arr[left] = arr[right];
+//         arr[right] = temp2;
+//     }
+
+//     temp = arr[0];
+//     arr[0] = arr[right];
+//     arr[right] = temp;
+//     return right;
+// }
+
+function partition(arr, low, high)
+{
+    let valueOfPivot = arr[low];
+    let left = low+1;
+    let right = high;
+    while(left < right){
+        while(arr[left] <= valueOfPivot){
+            left++;
+        }
+    
+        while(arr[right] >= valueOfPivot){
+            right--;
+            if(right==low) return right;
+        }
+
+        if(left >= right) break;
+
+        let temp2 = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp2;
+    }
+    
+    let temp = valueOfPivot;
+    arr[low] = arr[right];
+    arr[right] = temp;
+    return right;
+}
+// quick sort
+function quickSort(arr, low, high){
+    if(low+1 >= high){
+        return;
+    }
+    
+    var i = partition(arr, low, high);
+    quickSort(arr, low, i-1);
+    quickSort(arr, i+1, high);
+}
